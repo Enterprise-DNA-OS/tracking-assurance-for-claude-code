@@ -1,11 +1,41 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "event-specification",
+    "title": "Event specification",
+    "for_each": "select id,name from events",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Owner and purpose",
+        "layout": "record",
+        "sql": "select * from v_events where id=$1"
+      },
+      {
+        "title": "Current validation rules",
+        "layout": "record",
+        "sql": "select revision,schema,author,reason,needs_review from v_contracts where event_id=$1"
+      }
+    ]
+  },
+  {
+    "name": "evidence-review",
+    "title": "Tracking evidence review",
+    "for_each": "select id,name from events",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Coverage",
+        "layout": "record",
+        "sql": "select * from v_coverage where id=$1"
+      },
+      {
+        "title": "Recorded findings",
+        "sql": "select observed_at,consent,findings from observations where event_id=$1 order by observed_at desc"
+      },
+      {
+        "title": "Corrective actions",
+        "sql": "select title,owner,due_on,status,resolution from issues where event_id=$1"
+      }
     ]
   }
 ]

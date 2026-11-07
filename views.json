@@ -1,13 +1,43 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Tracking Assurance for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Tracking review this week",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Events and owners",
+        "sql": "select * from v_events"
+      },
+      {
+        "title": "Overdue corrections",
+        "sql": "select * from v_overdue"
+      }
+    ]
+  },
+  {
+    "name": "drift",
+    "title": "Captured tracking drift",
+    "sections": [
+      {
+        "title": "Findings",
+        "sql": "select * from v_drift"
+      },
+      {
+        "title": "Vendor warnings at import",
+        "sql": "select * from v_vendor_warnings"
+      }
+    ]
+  },
+  {
+    "name": "coverage",
+    "title": "Evidence coverage",
+    "sections": [
+      {
+        "title": "Current contract evidence",
+        "sql": "select * from v_coverage"
+      },
+      {
+        "title": "Policy checks",
+        "sql": "select * from v_compliance"
       }
     ]
   }

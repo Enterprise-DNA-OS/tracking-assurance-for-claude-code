@@ -1,0 +1,4 @@
+Destination,Category,Status,Event Name,Property Name,Type,Presence,Description,2026-11-05,2026-11-06,Warnings
+googleanalytics,,ok,checkout_started,,,,Checkout started,20,25,
+googleanalytics,,ok,checkout_started,currency,string,required,Currency,20,25,
+googleanalytics,,warn,checkout_started,value,number,required,Order value,18,22,REQUIRED_WARNING: value missing from some hits

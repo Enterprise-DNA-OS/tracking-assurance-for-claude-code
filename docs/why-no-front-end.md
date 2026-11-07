@@ -1,24 +1,7 @@
 # Why there is no front end
 
-Trackingplan is a database with a subscription. The tables underneath it are ordinary: a few entities, a few relationships, a handful of workflows you repeat every week. What you pay for is the layer on top that lets people who do not write SQL get at those tables. Screens, filters, dashboards, forms.
+The local desk answers questions about event rules, captured evidence and unfinished corrections. Those jobs work through one CLI and a database. A coding agent translates the operator's request, runs the command and explains the evidence. Read-only HTML reports give a team something to review or print.
 
-That layer used to be the whole product, because talking to a database was hard. It is not hard any more. Open this folder in Claude Code, describe what you want, and it writes the query, runs it, and explains the answer. Ask a question the dashboard never had a chart for and you still get an answer.
+Trackingplan does more than store definitions. It collects traffic, detects changes, inspects consent and provides its own interface and services. This repo does not reproduce its collector, visitor session explorer, mobile monitoring, alert delivery or browser overlays. A screen also gives interactive filtering, shared navigation and easier browsing on a phone. None of those features follows from an imported definition file.
 
-## What you gain
-
-- **Better answers.** A dashboard shows what the vendor decided to chart. Here you ask your own question, in your own words, and get it answered against your own data.
-- **No seats.** Everyone who needs to look can look. The bill does not grow with headcount.
-- **Your data in your Postgres.** Plain tables. Back them up, query them from anything, leave any time. There is no export step because there is nothing to leave.
-- **A process that matches you.** When your way of working changes, you add a command. You do not wait for a feature request to clear.
-
-## What you give up
-
-- **A visual board.** Stages are a table you ask about, not cards you drag.
-- **A phone app.** It runs where Claude Code runs.
-- **A vendor help desk.** This is open source. Enterprise DNA supports the installed version for businesses that want someone to call.
-
-## Who this fits
-
-Small teams who already use Claude Code, or who would rather learn to ask than learn another interface. If your team needs a screen to look at all day, keep Trackingplan. If you need the answers more than the screens, this is cheaper, faster and yours.
-
-Installed and run for you: https://enterprisedna.co/omni/instead-of/trackingplan
+The base fits a team that already captures test events and wants to own its definitions and review process. Enterprise DNA can connect collection tools, implement access controls and add a web front end or another stack for the business. No front end is needed to run the included local checks, branded documents or weekly review.

@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Which captured checkout events fail the current property rules?",
+    "command": "npm run tracking -- drift"
+  },
+  {
+    "question": "Which events have no evidence for their current contract revision?",
+    "command": "npm run tracking -- coverage"
+  },
+  {
+    "question": "Which captures conflict with our recorded consent policy?",
+    "command": "npm run tracking -- drift"
+  },
+  {
+    "question": "Which property names need a personal-data review?",
+    "command": "npm run tracking -- drift"
+  },
+  {
+    "question": "Which events have gone more than a week without captured evidence?",
+    "command": "npm run tracking -- quiet"
+  },
+  {
+    "question": "Which imported daily counts dropped or reached zero?",
+    "command": "npm run tracking -- traffic"
+  },
+  {
+    "question": "Who owns overdue tracking corrections?",
+    "command": "npm run tracking -- overdue"
+  },
+  {
+    "question": "Which event definitions have no purpose or retention period?",
+    "command": "npm run tracking -- compliance"
+  },
+  {
+    "question": "Does the latest release batch cover every current event contract?",
+    "command": "npm run tracking -- release-review --destination=demo-store --release=checkout-42"
+  },
+  {
+    "question": "Who changed the rules or recorded a correction?",
+    "command": "npm run tracking -- activity"
+  }
+]
