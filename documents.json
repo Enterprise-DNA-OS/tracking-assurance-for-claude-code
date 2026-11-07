@@ -8,12 +8,16 @@
       {
         "title": "Owner and purpose",
         "layout": "record",
-        "sql": "select * from v_events where id=$1"
+        "sql": "select name,destination,environment,owner,purpose,retention_days,consent_required,revision,needs_review from v_events where id=$1"
       },
       {
         "title": "Current validation rules",
         "layout": "record",
-        "sql": "select revision,schema,author,reason,needs_review from v_contracts where event_id=$1"
+        "sql": "select revision,author,reason,needs_review from v_contracts where event_id=$1"
+      },
+      {
+        "title": "Property requirements",
+        "sql": "select p.key property,coalesce(p.value->>'type','any') type,coalesce(c.schema->'required','[]') ? p.key required,p.value->>'enum' allowed_values,p.value->>'minimum' minimum,p.value->>'pattern' pattern from v_contracts c cross join lateral jsonb_each(c.schema->'properties') p where c.event_id=$1"
       }
     ]
   },
@@ -26,7 +30,7 @@
       {
         "title": "Coverage",
         "layout": "record",
-        "sql": "select * from v_coverage where id=$1"
+        "sql": "select name,destination,revision,current_samples,to_char(last_observed,'YYYY-MM-DD HH24:MI') last_observed,failed_samples from v_coverage where id=$1"
       },
       {
         "title": "Recorded findings",

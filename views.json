@@ -5,11 +5,11 @@
     "sections": [
       {
         "title": "Events and owners",
-        "sql": "select * from v_events"
+        "sql": "select name,destination,environment,owner,purpose,retention_days,revision from v_events"
       },
       {
         "title": "Overdue corrections",
-        "sql": "select * from v_overdue"
+        "sql": "select event,title,owner,due_on,days_overdue from v_overdue"
       }
     ]
   },
@@ -33,11 +33,11 @@
     "sections": [
       {
         "title": "Current contract evidence",
-        "sql": "select * from v_coverage"
+        "sql": "select name,destination,revision,needs_review,current_samples,to_char(last_observed,'YYYY-MM-DD HH24:MI') last_observed,failed_samples from v_coverage"
       },
       {
         "title": "Policy checks",
-        "sql": "select * from v_compliance"
+        "sql": "select name,rule,finding from v_compliance"
       }
     ]
   }
