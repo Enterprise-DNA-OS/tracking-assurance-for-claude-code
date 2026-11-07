@@ -42,6 +42,8 @@ try{
  await fails(()=>invoke('import',['trackingplan'],{...imp,file:modified}),/already exists/);
  const original=(await db.query('select source_content from imports'))[0].source_content;
  check(original===fs.readFileSync(imp.file,'utf8'));
+ check((await invoke('vendor-warnings')).some(w=>w.property==='value'&&w.name==='checkout_started'));
+ check((await invoke('event',['checkout_started'])).source.properties.length===2);
  check((await invoke('traffic')).filter(r=>r.name==='checkout_started').length===2);
  const imported=(await invoke('event',['checkout_started']));check(imported.contract[0].needs_review);
  const jsonDest=await invoke('add-destination',[],{name:'json-store',environment:'PRODUCTION'});

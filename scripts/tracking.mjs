@@ -35,7 +35,7 @@ export const reads={
  traffic:'select name,destination,hit_day,hits from v_traffic order by destination,name,hit_day',
  quiet:"select name,destination,last_observed,current_samples from v_coverage where last_observed is null or last_observed<now()-interval '7 days' order by name",
  compliance:'select name,rule,finding from v_compliance order by name,rule',
- 'vendor-warnings':'select name,destination,warning from v_vendor_warnings order by name',
+ 'vendor-warnings':'select name,destination,property,warning from v_vendor_warnings order by name,property',
  issues:'select i.id,e.name event,i.title,i.owner,i.due_on,i.status,i.resolution from issues i join events e on e.id=i.event_id order by i.due_on',
  overdue:'select * from v_overdue order by due_on',
  activity:'select actor,action,record_id,details,created_at from activity order by created_at desc,id'
@@ -88,7 +88,7 @@ function personalFields(v,at=''){const out=[];if(obj(v)||Array.isArray(v))for(co
 export async function run(db,command,args=[],f={}){
  if(command in reads)return db.query(reads[command]);
  if(command==='help')return Object.entries(help).map(([command,usage])=>({command,usage}));
- if(command==='event'){const id=await resolve(db,'events',args[0]);return {event:(await db.query('select * from v_events where id=$1',[id]))[0],contract:await db.query('select * from v_contracts where event_id=$1',[id]),observations:await db.query('select * from observations where event_id=$1 order by observed_at desc',[id]),issues:await db.query('select * from issues where event_id=$1',[id])};}
+ if(command==='event'){const id=await resolve(db,'events',args[0]);return {event:(await db.query('select * from v_events where id=$1',[id]))[0],source:(await db.query('select source from events where id=$1',[id]))[0].source,contract:await db.query('select * from v_contracts where event_id=$1',[id]),observations:await db.query('select * from observations where event_id=$1 order by observed_at desc',[id]),issues:await db.query('select * from issues where event_id=$1',[id])};}
  if(command==='release-review'){
  const did=await resolve(db,'destinations',f.destination);required(f.release,'release');
  const runs=await db.query('select * from check_runs where destination_id=$1 and release=$2 order by created_at desc,id desc limit 1',[did,f.release]);
