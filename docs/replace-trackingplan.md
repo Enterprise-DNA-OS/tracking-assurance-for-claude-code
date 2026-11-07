@@ -16,7 +16,7 @@ npm run tracking -- import trackingplan --file=imports/trackingplan.csv --destin
 npm run tracking -- import trackingplan --file=imports/trackingplan.csv --destination=store-ga4 --actor=operator
 ```
 
-The final line is the one-command import after creating the destination. For JSON, use a .json filename. The supplied destination names the site and provider and records the exported environment. Do not combine websites or environments under one destination. Multi-provider files are rejected instead of merged. Count reconciliation remains necessary because the CSV does not identify the account or environment.
+The final line is the one-command import after creating the destination. For JSON, use a .json filename. The supplied destination names the site and provider and records the exported environment. Do not combine websites or environments under one destination. Multi-provider files are rejected instead of merged. A JSON export environment must match the chosen destination, and later imports must use its existing provider. Count reconciliation remains necessary because the CSV does not identify the account or environment.
 
 The import is atomic. Unknown columns and original bytes remain in source records. Identical imports are skipped. Conflicting existing event names cause a failure with no writes, so an export cannot replace local reviewed rules. Use a fresh destination to compare a changed export, then explicitly update the intended event contracts.
 

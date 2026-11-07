@@ -44,6 +44,7 @@ try{
  check(original===fs.readFileSync(imp.file,'utf8'));
  check((await invoke('vendor-warnings')).some(w=>w.property==='value'&&w.name==='checkout_started'));
  check((await invoke('event',['checkout_started'])).source.properties.length===2);
+ await fails(()=>invoke('import',['trackingplan'],{destination:dest.id,file:file('other-provider.json',{events:{facebook:[{name:'another_event',properties:[]}]}})}),/provider does not match/);
  check((await invoke('traffic')).filter(r=>r.name==='checkout_started').length===2);
  const imported=(await invoke('event',['checkout_started']));check(imported.contract[0].needs_review);
  const jsonDest=await invoke('add-destination',[],{name:'json-store',environment:'PRODUCTION'});
@@ -51,6 +52,7 @@ try{
  const jsonFile=file('export.json',official);
  check((await invoke('import',['trackingplan'],{destination:jsonDest.id,file:jsonFile})).imported_count===1);
  check((await invoke('event',['account_opened'])).contract[0].needs_review);
+ await fails(()=>invoke('import',['trackingplan'],{destination:dest.id,file:jsonFile}),/environment/);
  const badDest=await invoke('add-destination',[],{name:'bad-import',environment:'STAGING'});
  const invalid={events:{ga:[{name:'first',properties:[]},{name:'bad',daily_hits_data:{'2026-02-30':1}}]}};
  await fails(()=>invoke('import',['trackingplan'],{destination:badDest.id,file:file('invalid.json',invalid)}),/Invalid calendar/);

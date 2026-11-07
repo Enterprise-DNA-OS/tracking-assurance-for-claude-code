@@ -131,8 +131,10 @@ export async function run(db,command,args=[],f={}){
  }else if(command==='import'){
  if(args[0]!=='trackingplan')throw Error('Supported import: trackingplan');const did=await resolve(db,'destinations',f.destination);await db.query('select id from destinations where id=$1 for update',[did]);
  const raw=fs.readFileSync(required(f.file,'file'),'utf8'),digest=hash(raw),data=normaliseImport(raw,f.file);
+ if(!f.file.toLowerCase().endsWith('.csv')){const environment=JSON.parse(raw).meta?.environment;const destination=(await db.query('select environment from destinations where id=$1',[did]))[0];if(environment&&String(environment).toUpperCase()!==destination.environment.toUpperCase())throw Error('Export environment does not match destination');}
  const previous=await db.query('select id,imported_count from imports where destination_id=$1 and digest=$2',[did,digest]);if(previous.length)return {unchanged:true,...previous[0]};
  const providers=[...new Set(data.map(e=>e.provider))];if(providers.length!==1)throw Error('Export one destination/provider at a time to preserve destination identity');
+ const savedProviders=await db.query("select distinct source->>'provider' provider from events where destination_id=$1 and source ? 'provider'",[did]);if(savedProviders.some(x=>x.provider!==providers[0]))throw Error('Export provider does not match existing destination records');
  const existing=await db.query('select name from events where destination_id=$1',[did]);if(data.some(e=>existing.some(x=>x.name===e.name)))throw Error('Event already exists: import into a fresh destination or reconcile explicitly; no silent overwrite');
  if(f['dry-run'])return {dry_run:true,events:data.length,provider:providers[0],needs_review:true};
  for(const e of data){const eid=(await db.query('insert into events(destination_id,name,source) values($1,$2,$3) returning id',[did,e.name,JSON.stringify(e)]))[0].id;
